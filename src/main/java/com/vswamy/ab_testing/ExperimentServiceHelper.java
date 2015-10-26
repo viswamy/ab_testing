@@ -1,6 +1,7 @@
 package com.vswamy.ab_testing;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -93,5 +94,23 @@ public enum ExperimentServiceHelper
         info.setStates(states);
         map.put(experimentName, info);
         return;
+    }
+
+    public Map<String, String> getExperimentsState(List<String> experimentsName)
+    {
+        HashMap<String, String> map = new HashMap<String, String>();
+        for (String experimentName : experimentsName)
+        {
+            try
+            {
+                map.put(experimentName, this.getRandomExperimentState(experimentName));
+            }
+            catch (ExperimentNotFoundException exception)
+            {
+                //Log and consume the exception
+                logger.debug("Experiment not found => {}", exception);
+            }
+        }
+        return map;
     }
 }

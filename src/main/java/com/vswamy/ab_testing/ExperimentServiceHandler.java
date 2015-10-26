@@ -32,7 +32,7 @@ public enum ExperimentServiceHandler implements ExperimentService.Iface
         if(experimentsName == null || experimentsName.size() == 0)
             throw new NullOrEmptyException("The input experiment list is either null or empty!...");
         
-        return null;
+        return helper.getExperimentsState(experimentsName);
     }
 
     public Experiment getExperiment(String experimentName) throws ExperimentNotFoundException, NullOrEmptyException,
