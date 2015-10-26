@@ -2,9 +2,9 @@ package com.vswamy.ab_testing;
 
 public class ExperimentState
 {
-    String name;
-    int weightage;
-    int cumulativeWeightage;
+    private String name;
+    private int weightage;
+    private int cumulativeWeightage;
 
     public String getName()
     {

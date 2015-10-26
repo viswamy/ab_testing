@@ -4,12 +4,12 @@ import java.util.HashMap;
 
 public class ExperimentInfo
 {
-    String experimentName;
+    private String experimentName;
 
-    String authorName;
-    String authorEmailAddress;
-    String passcode;
-    ExperimentState[] states;
+    private String authorName;
+    private String authorEmailAddress;
+    private String passcode;
+    private ExperimentState[] states;
 
     public String getExperimentName()
     {

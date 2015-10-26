@@ -33,7 +33,7 @@ public enum ExperimentServiceHelper
             throw new ExperimentNotFoundException("The experiment could not be found!...");
 
         ExperimentInfo info = map.get(experimentName);
-        ExperimentState[] experimentStates = info.states;
+        ExperimentState[] experimentStates = info.getStates();
 
         int totalWeightage = experimentStates[experimentStates.length - 1].getCumulativeWeightage();
         int randomNumber = rand.nextInt(totalWeightage);
@@ -112,5 +112,28 @@ public enum ExperimentServiceHelper
             }
         }
         return map;
+    }
+
+    public Experiment getExperiment(String experimentName) throws ExperimentNotFoundException
+    {
+        Experiment experiment = new Experiment();
+        if(!map.containsKey(experimentName))
+            populate(experimentName);
+        
+        if(!map.containsKey(experimentName))
+            throw new ExperimentNotFoundException("The input experiment was not found!...");
+        
+        ExperimentInfo info = map.get(experimentName);
+        experiment.setAuthorName(info.getAuthorName());
+        experiment.setAuthorEmailAddress(info.getAuthorEmailAddress());
+        experiment.setPasscode(info.getPasscode());
+        experiment.setExperimentName(info.getExperimentName());
+        HashMap<String, Integer> s = new HashMap<String, Integer>(); 
+        for(ExperimentState state : info.getStates())
+        {
+            s.put(state.getName(), state.getWeightage());
+        }
+        experiment.setStateWeights(s);
+        return experiment;
     }
 }
