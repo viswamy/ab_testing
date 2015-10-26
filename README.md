@@ -10,5 +10,5 @@ Language independent ab_testing framework which allows users to create, modify a
 # Setup
 1. Install Java Runtime, Java SDK, Eclipse, Eclipse-Maven plugin, Redis
 2. Clone the repository
-3. Build
-4. Run
+3. mvn package
+4. Run the jar file that got created by => java -jar ab_testing-0.0.1-SNAPSHOT.jar ab_test.properties
