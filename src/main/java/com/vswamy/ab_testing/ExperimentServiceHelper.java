@@ -3,6 +3,7 @@ package com.vswamy.ab_testing;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import org.slf4j.Logger;
@@ -107,7 +108,7 @@ public enum ExperimentServiceHelper
             }
             catch (ExperimentNotFoundException exception)
             {
-                //Log and consume the exception
+                // Log and consume the exception
                 logger.debug("Experiment not found => {}", exception);
             }
         }
@@ -117,23 +118,60 @@ public enum ExperimentServiceHelper
     public Experiment getExperiment(String experimentName) throws ExperimentNotFoundException
     {
         Experiment experiment = new Experiment();
-        if(!map.containsKey(experimentName))
+        if (!map.containsKey(experimentName))
             populate(experimentName);
-        
-        if(!map.containsKey(experimentName))
+
+        if (!map.containsKey(experimentName))
             throw new ExperimentNotFoundException("The input experiment was not found!...");
-        
+
         ExperimentInfo info = map.get(experimentName);
         experiment.setAuthorName(info.getAuthorName());
         experiment.setAuthorEmailAddress(info.getAuthorEmailAddress());
         experiment.setPasscode(info.getPasscode());
         experiment.setExperimentName(info.getExperimentName());
-        HashMap<String, Integer> s = new HashMap<String, Integer>(); 
-        for(ExperimentState state : info.getStates())
+        HashMap<String, Integer> s = new HashMap<String, Integer>();
+        for (ExperimentState state : info.getStates())
         {
             s.put(state.getName(), state.getWeightage());
         }
         experiment.setStateWeights(s);
         return experiment;
+    }
+
+    private void updateExperiment(Experiment experiment)
+    {
+        HashMap<String, String> temp = new HashMap<String, String>();
+        temp.put(this.authorName, experiment.getAuthorName());
+        temp.put(this.authorEmailAddress, experiment.getAuthorEmailAddress());
+        temp.put(this.passcode, experiment.getPasscode());
+
+        for (Entry<String, Integer> entry : experiment.getStateWeights().entrySet())
+        {
+            temp.put(entry.getKey(), entry.getValue().toString());
+        }
+        jedis.hmset(experiment.getExperimentName(), temp);
+    }
+
+    public boolean createExperiment(Experiment experiment) throws ExperimentAlreadyExistsException
+    {
+        Map<String, String> x = jedis.hgetAll(experiment.getExperimentName());
+
+        if (x != null && !x.isEmpty())
+            throw new ExperimentAlreadyExistsException("The experiment name already exists!...");
+
+        this.updateExperiment(experiment);
+        map.remove(experiment.getExperimentName());
+        return true;
+    }
+
+    public boolean editExperiment(Experiment experiment) throws ExperimentNotFoundException
+    {
+        Map<String, String> x = jedis.hgetAll(experiment.getExperimentName());
+        if (x == null || x.isEmpty())
+            throw new ExperimentNotFoundException("The input experiment was not found!...");
+
+        this.updateExperiment(experiment);
+        map.remove(experiment.getExperimentName());
+        return true;
     }
 }

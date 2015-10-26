@@ -47,15 +47,25 @@ public enum ExperimentServiceHandler implements ExperimentService.Iface
     public boolean createExperiment(Experiment experiment) throws ExperimentAlreadyExistsException,
             NullOrEmptyException, TException
     {
-        // TODO Auto-generated method stub
-        return false;
+        if(experiment == null)
+            throw new NullOrEmptyException("The input experiment is either null or emtpy!...");
+        
+        if(experiment.getExperimentName().trim().length() == 0)
+            throw new NullOrEmptyException("The input experiment name is either null or empty!...");
+        
+        return helper.createExperiment(experiment);
     }
 
     public boolean editExperiment(Experiment experiment) throws InvalidPasscodeException, NullOrEmptyException,
             ExperimentNotFoundException, TException
     {
-        // TODO Auto-generated method stub
-        return false;
+        if(experiment == null)
+            throw new NullOrEmptyException("The input experiment is either null or emtpy!...");
+        
+        if(experiment.getExperimentName().trim().length() == 0)
+            throw new NullOrEmptyException("The input experiment name is either null or empty!...");
+        
+        return helper.editExperiment(experiment);
     }
 
 }
