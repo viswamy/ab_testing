@@ -14,5 +14,5 @@ While deploying various features, and assessing the value of a feature (such as 
 1. Install Java Runtime, Java SDK, Eclipse, Eclipse-Maven plugin, Redis
 2. Clone the repository
 3. Generate thrift specific classes by running ```thrift -o target/ --gen java ab_test.thrift``` 
-4. mvn package
-5. Run the jar file that got created by => java -jar ab_testing-0.0.1-SNAPSHOT.jar ab_test.properties
+4. Build the code ```mvn package```
+5. Run the jar file that got created by => ```java -jar ab_testing-0.0.1-SNAPSHOT.jar ab_test.properties```
