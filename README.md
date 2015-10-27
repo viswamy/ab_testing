@@ -3,7 +3,7 @@
 Language independent ab_testing framework which allows users to create, modify and get experiments and states.
 
 # Motivation 
-While deploying various features, and assessing the value of a feature (such as in recommendation systems), it is important that people run many experiments and choose what is best according to their own defined metrics. But since it is an experimentation, it is unwise to experiment it on all users and therefore, with this framework you can tune the % of users affected by your experiment. It also supports multiple languages like Java, Python, Perl, C++ etc,.
+While deploying various features, and assessing the value of a feature (such as in recommendation systems), it is important that people run many experiments and choose what is best according to their own defined metrics. But since it is an experimentation, it is unwise to experiment it on all users and therefore, with this framework you can tune the % of users affected by your experiment. 
 
 # Technologies Used
 1. Java (with Maven as a build tool)
