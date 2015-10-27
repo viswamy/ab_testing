@@ -40,7 +40,11 @@ public enum ExperimentServiceHelper
         int randomNumber = rand.nextInt(totalWeightage);
 
         ExperimentState retExperimentState = null;
-
+        /*
+         * The assumption here is that number of states will be minimum. 
+         * If the number of states increases, modified binary search algorithm can be applied here as 
+         * it is known for a fact that cumulative weightage is non-decreasing in nature
+        */
         for (int i = experimentStates.length - 1; i >= 0; i--)
         {
             if (randomNumber < experimentStates[i].getCumulativeWeightage())
